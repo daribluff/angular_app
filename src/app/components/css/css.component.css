@@ -1,0 +1,19 @@
+.css-block{
+    width: 260px;
+    border-right: 1px solid #f8f8f8;
+    height: 100%;
+    position:fixed;
+    font-family: lato;
+    float:left;
+    top: 0px;
+    left:1680px;
+}
+
+.title{
+
+}
+
+.css-area{
+    min-height: 450px;
+    width: 260px;
+}

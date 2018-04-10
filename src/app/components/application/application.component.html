@@ -1,0 +1,13 @@
+<div class="application">
+  <div class="title">
+    --
+  </div>
+
+  <div class="container">
+      <div *ngFor="let block of blocks | orderBy : 'niveau'" [ngStyle]="getCss(block)">
+         {{ block.htmlContent }}
+      </div>
+
+  </div>
+
+</div>
