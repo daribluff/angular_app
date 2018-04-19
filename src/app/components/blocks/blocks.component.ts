@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Directive } from '@angular/core';
 import { BlockService } from '../../services/block.service';
 import { Block } from '../../models/Block';
 
-import { OnChanges, SimpleChanges, Input } from '@angular/core';
+import { OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-blocks',
@@ -11,16 +11,18 @@ import { OnChanges, SimpleChanges, Input } from '@angular/core';
 })
 
 export class BlocksComponent implements OnInit{
+  
   blocks:Block[];
+  @Output() blockEvent = new EventEmitter();
+
   constructor(
     public blockService:BlockService
-  ) { }
-  
+  ) {
+    
+   }
 
   ngOnInit() {
-    this.blockService.getBlocks().subscribe(blocks => {
-      this.blocks = blocks;
-    })
+    this.blockService.currentBlock.subscribe(block => this.blocks = block);
   }
 
   ajouterdivdedans(className, niveau, idBlock) {
@@ -37,23 +39,9 @@ export class BlocksComponent implements OnInit{
       }else if(i != length){
         newNiveau = newNiveau + '_' + niveausplit[i];
       }else{
-        newNiveau = newNiveau + '_' + 1);
+        newNiveau = newNiveau + '_' + 1;
       }
     }
-
-    // let j = 1;
-
-    // if(newNiveau == ''){
-    //   while ($('#'+j).length > 0) {
-    //     j = j + 1;
-    //   }
-    // }else{
-    //   while ($('#' + newNiveau + '_' + j).length > 0) {
-    //     j = j + 1;
-    //   }
-    // }
-    
-    // newNiveau == '' ? newNiveau = j : newNiveau = newNiveau + '_' + j;
 
     this.blocks.push({
         type: 'div',
@@ -63,6 +51,8 @@ export class BlocksComponent implements OnInit{
         niveau: newNiveau.toString(),
         idParent: className
       })
+
+    this.blockEvent.emit(this.blocks);
 
   }
 
@@ -123,6 +113,7 @@ export class BlocksComponent implements OnInit{
 
       // console.log('Old hero is: ', changes.hero.previousValue.name);
       // this.oldHero = changes.hero.previousValue.name;
+      
 
     this.blockService.updateblocks(this.blocks);
 
@@ -132,23 +123,25 @@ export class BlocksComponent implements OnInit{
 
     let niveausplit = [];
 
+    let classNiveau = '';
+
     niveau.toString().replace('_', '') == niveau ? niveausplit = [niveau] : niveausplit = niveau.toString().split('_');
 
     switch(niveausplit.length){
       case 1: 
-        let classNiveau = 'first-block'
-          break;
+        classNiveau = 'first-block'
+        break;
       case 2:
-        let classNiveau = 'second-block'
+        classNiveau = 'second-block'
         break;
       case 3:
-        let classNiveau = 'third-block'
+        classNiveau = 'third-block'
         break;
       case 4:
-        let classNiveau = 'for-block'
+        classNiveau = 'for-block'
         break;
       case 5:
-        let classNiveau = 'five-block'
+        classNiveau = 'five-block'
         break;
     }
 
@@ -158,13 +151,14 @@ export class BlocksComponent implements OnInit{
 
   bindCss(css) {
 
-    var cssTab = [];
+    // var cssTab = [];
 
-    let css2 = css.replace('"', '');
+    // let css2 = css.replace('"', '');
 
-    cssTab = css2.split(',');
+    // cssTab = css2.split(',');
 
-    $('.css-area').val(cssTab);
+    // $('.css-area').val(cssTab);
+
   }
 
 }

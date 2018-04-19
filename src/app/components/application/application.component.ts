@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { BlockService } from '../../services/block.service';
 import { Block } from '../../models/Block';
 
@@ -9,22 +9,18 @@ import { Block } from '../../models/Block';
 })
 export class ApplicationComponent implements OnInit {
 
-  blocks: Block[];
+  blocks: Block;
+
   constructor(
     public blockService: BlockService
-  ) { }
+  ) {
+   }
 
   ngOnInit() {
-    this.blockService.getBlocks().subscribe(blocks => {
-      this.blocks = blocks;
-    })
+    this.blockService.currentBlock.subscribe(block => this.blocks = block);
   }
 
   getCss(block) {
-
-    this.blocks = this.blockService.getBlocks();
-
-    console.log(this.blocks);
 
     let css = block.css;
 

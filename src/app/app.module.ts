@@ -27,6 +27,9 @@ import { CssComponent } from './components/css/css.component';
 import { BlockService } from './services/block.service';
 import { BlocksComponent } from './components/blocks/blocks.component';
 
+// JQuery Import
+import * as $ from 'jquery';
+
 const appRoutes: Routes = [
   { path: '', component: ApplicationComponent}
   // {path: '', component:}
@@ -59,7 +62,7 @@ export const firebaseConfig = {
     BrowserModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
-    AngularFireModule.initializeApp(firebaseConfig.firebase, 'app')
+    AngularFireModule.initializeApp(firebaseConfig.firebase, 'app'),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AngularFireStorageModule, // imports firebase/storage only needed for storage features
