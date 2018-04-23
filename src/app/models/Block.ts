@@ -7,5 +7,5 @@ export interface Block{
     idParent?: string;
     proprietes?: string;
     type?: string;
-    niveau?:string
+    niveau?:string;
 }

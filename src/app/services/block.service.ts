@@ -7,24 +7,34 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 @Injectable()
 export class BlockService {
   
-  blocks: Observable<any[]>;
+  block: any[];
 
-  private blockSource = new BehaviorSubject<object>(this.blocks);
-  currentBlock = this.blockSource.asObservable();
+  private dtb;
 
   constructor(
     db: AngularFirestore
   ) {
-    this.blocks = db.collection('blocks').valueChanges();
+    this.dtb = db;
    }
 
-   getBlocks(){
-     return this.blocks;
+   getBlocks(): Observable<Block[]>{
+    //  console.log(this.dtb.collection('blocks').valueChanges());
+     return this.dtb.collection('blocks').snapshotChanges();
+   }
+
+   changeBlock(block){
+    //  console.log(this.currentBlock);
+    //  this.blockSource.next(block);
    }
 
    updateblocks(block){
-     this.blockSource.next(block);
-     return this.blocks = block;
+      // this.blockSource.next(block);
+      this.dtb.collection('blocks').add(block);
+    //  return this.blocks = block;
+   }
+
+   updateContent(id, upBlock){
+       this.dtb.collection('blocks').doc(id).set(upBlock);
    }
 
 }

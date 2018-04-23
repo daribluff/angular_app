@@ -3,14 +3,14 @@
 
   </div>
   
-  <div *ngFor="let block of blocks | orderBy : 'niveau'" [ngClass]="defineClass(block.niveau)" id="{{ block.niveau }}" (click)=bindCss(block.css)>
+  <div *ngFor="let block of blocks | orderBy : 'block.block.niveau'" [ngClass]="defineClass(block.niveau)" id="{{ block.niveau }}" (click)=bindCss(block.css)>
 
       <span class="caret"><fa name="caret-right"></fa></span>
 
         <span class="type"><{{ block.type }}</span>
         <span class="className">class="{{ block.className }}"</span>
         <span class="idBlock">id="{{ block.idBlock }}"></span>
-        <span class="htmlContent" contenteditable="true" [(ngModel)]="block.htmlContent" (ngModelChange)="changeContent(block)">{{ block.htmlContent }}</span>
+        <span class="htmlContent" contenteditable="true" [(ngModel)]="block.block.htmlContent" (focusout)="changeContent(block.id, block.block)">{{ block.htmlContent }}</span>
         <span class="type"><{{ block.type }}></span> 
         <span class="plus">
           <span class="plus-down" (click)="ajouterdivdedans(block.className, block.niveau, block.idBlock)">

@@ -9,15 +9,38 @@ import { Block } from '../../models/Block';
 })
 export class ApplicationComponent implements OnInit {
 
-  blocks: Block;
+  blocks:Block;
 
   constructor(
     public blockService: BlockService
   ) {
+      this.blockService.getBlocks().subscribe(blocks => {
+
+          let blockobjArr = [];
+
+          blocks.map(block => {
+
+              let blockobj = block['payload'].doc.data();
+              let blockobjArray = [];
+
+              Object.keys(blockobj).map(function(key){
+
+                  blockobjArray[key] = blockobj[key];
+
+              });
+
+              blockobjArr.push(blockobjArray);
+
+          });
+
+
+          this.blocks = blockobjArr;
+
+      })
    }
 
   ngOnInit() {
-    this.blockService.currentBlock.subscribe(block => this.blocks = block);
+    // this.blockService.currentBlock.subscribe(block => this.blocks = block);
   }
 
   getCss(block) {
@@ -27,6 +50,7 @@ export class ApplicationComponent implements OnInit {
     let css2 = JSON.parse(css);
 
     return css2;
+    
   }
 
 }

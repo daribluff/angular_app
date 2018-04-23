@@ -11,18 +11,41 @@ import { OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/
 })
 
 export class BlocksComponent implements OnInit{
-  
-  blocks:Block[];
+
+  blocks:Block;
+
   @Output() blockEvent = new EventEmitter();
 
   constructor(
     public blockService:BlockService
   ) {
-    
+    this.blockService.getBlocks().subscribe(blocks => {
+
+        let blockobjArr = [];
+
+      blocks.map(block => {
+
+        let blockobj = block['payload'].doc.data();
+        let blockobjArray = [];
+
+          Object.keys(blockobj).map(function(key){
+              blockobjArray[key] = blockobj[key];
+          });
+
+          blockobjArray['id'] = block['payload'].doc['id'];
+          blockobjArray['block'] = block['payload'].doc.data();
+
+          blockobjArr.push(blockobjArray);
+
+      });
+
+      this.blocks = blockobjArr;
+
+    })
    }
 
   ngOnInit() {
-    this.blockService.currentBlock.subscribe(block => this.blocks = block);
+    // this.blockService.currentBlock.subscribe(block => this.blocks = block);
   }
 
   ajouterdivdedans(className, niveau, idBlock) {
@@ -43,14 +66,20 @@ export class BlocksComponent implements OnInit{
       }
     }
 
-    this.blocks.push({
-        type: 'div',
-        className: 'second-block',
-        idBlock: 'sous-' + idBlock,
-        htmlContent: 'sous-' + className,
-        niveau: newNiveau.toString(),
-        idParent: className
-      })
+    var newBlock = {
+      type: 'div',
+      className: 'second-block',
+      idBlock: 'sous-' + idBlock,
+      htmlContent: 'sous-' + className,
+      niveau: newNiveau.toString(),
+      idParent: className,
+      css: JSON.stringify(''),
+      proprietes: ''
+    };
+
+    this.blocks.push(newBlock);
+
+    this.addBlock(newBlock);
 
     this.blockEvent.emit(this.blocks);
 
@@ -70,8 +99,8 @@ export class BlocksComponent implements OnInit{
       } else if (i != length-1) {
         newNiveau = newNiveau + '_' + niveausplit[i];
       } else {
-        newNiveau = newNiveau + '_' + (parseInt(niveausplit[i]) + 1);
-      } 
+          newNiveau = newNiveau + '_' + (parseInt(niveausplit[i]) + 1);
+      }
     }
 
     // let j = 1;
@@ -88,34 +117,40 @@ export class BlocksComponent implements OnInit{
 
     // newNiveau == '' ? newNiveau = j : newNiveau = newNiveau + '_' + j;
 
-    this.blocks.push({
+    var newBlock = {
       type: 'div',
       className: 'second-block',
       idBlock: 'sous-' + idBlock,
       htmlContent: 'sous-' + className,
       niveau: newNiveau.toString(),
-      idParent: className
-    })
+      idParent: className,
+      css: JSON.stringify(''),
+      proprietes: ''
+    };
+
+    this.addBlock(newBlock);
+
+    this.blocks.push(newBlock);
 
   }
 
-  changeContent() {
+  addBlock(newBlock) {
 
-      // block.htmlContent = 'a';
+    this.blockService.updateblocks(newBlock);
 
-      // console.log(block.htmlContent);
+  }
 
-      // this.blockService.getBlocks().subscribe(blocks => {
-      //   blocks = this.blocks;
-      // })
+  changeContent(id, block){
 
-      // console.log(this.blocks);
+    // this.blockService.changeBlock(this.blocks);
 
-      // console.log('Old hero is: ', changes.hero.previousValue.name);
-      // this.oldHero = changes.hero.previousValue.name;
-      
+      // block.each(function(e) {
+      //
+      //    console.log(e);
+      //     // return { name: e };
+      // });
 
-    this.blockService.updateblocks(this.blocks);
+      this.blockService.updateContent(id, block);
 
   }
 
@@ -151,13 +186,13 @@ export class BlocksComponent implements OnInit{
 
   bindCss(css) {
 
-    // var cssTab = [];
+    var cssTab = [];
 
-    // let css2 = css.replace('"', '');
+    let css2 = css.replace('"', '');
 
-    // cssTab = css2.split(',');
+    cssTab = css2.split(',');
 
-    // $('.css-area').val(cssTab);
+    $('.css-area').val(cssTab);
 
   }
 
