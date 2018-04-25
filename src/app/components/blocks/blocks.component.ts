@@ -13,39 +13,125 @@ import { OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/
 export class BlocksComponent implements OnInit{
 
   blocks:Block;
+  blocks2:Block;
 
   @Output() blockEvent = new EventEmitter();
+
+    @Input() blocks;
+    @Input() blocks2;
 
   constructor(
     public blockService:BlockService
   ) {
-    this.blockService.getBlocks().subscribe(blocks => {
+      this.constructBlock();
+   }
 
-        let blockobjArr = [];
+   constructBlock(){
 
-      blocks.map(block => {
+       this.blockService.getBlocks().subscribe(blocks => {
 
-        let blockobj = block['payload'].doc.data();
-        let blockobjArray = [];
+           let blockobjArr = [];
 
-          Object.keys(blockobj).map(function(key){
-              blockobjArray[key] = blockobj[key];
-          });
+           blocks.map(block => {
 
-          blockobjArray['id'] = block['payload'].doc['id'];
-          blockobjArray['block'] = block['payload'].doc.data();
+               let blockobj = block['payload'].doc.data();
+               let blockobjArray = [];
 
-          blockobjArr.push(blockobjArray);
+               Object.keys(blockobj).map(function(key){
+                   blockobjArray[key] = blockobj[key];
+               });
 
-      });
+               blockobjArray['id'] = block['payload'].doc['id'];
+               blockobjArray['block'] = block['payload'].doc.data();
+               blockobjArray['insertHide'] = true;
 
-      this.blocks = blockobjArr;
+               blockobjArr.push(blockobjArray);
 
-    })
+           });
+
+           var mapped = blockobjArr.map(function(e, i) {
+               return { index: i, value: e.niveau };
+           });
+
+           mapped.sort(function(a, b) {
+               if (a.value > b.value) {
+                   return 1;
+               }
+               if (a.value < b.value) {
+                   return -1;
+               }
+               return 0;
+           });
+
+           var blockobjArr = mapped.map(function(e){
+               return blockobjArr[e.index];
+           });
+
+           let prevniveau = 1;
+
+           let blockobjArr2 = [];
+
+           blockobjArr.map(block => {
+
+               let prevniveau = block.niveau.substr(0, parseInt(block.niveau.length)- 2);
+
+               if(blockobjArr2[prevniveau]){
+                   blockobjArr2[prevniveau].push(block);
+               }
+
+              let blocktemp = [];
+
+               blocktemp['id'] = block.id;
+               blocktemp['block'] = block;
+               blocktemp['insertHide'] = true;
+
+                if(!blockobjArr2[block.niveau]){
+                    blockobjArr2[block.niveau] = [];
+                }
+
+               blockobjArr2[block.niveau].push(blocktemp);
+
+           });
+
+           console.log('a');
+
+           this.blocks = blockobjArr;
+           this.blocks2 = blockobjArr2;
+
+       })
    }
 
   ngOnInit() {
     // this.blockService.currentBlock.subscribe(block => this.blocks = block);
+  }
+
+  clickbody(blocks){
+      if(event.target.className == 'html-block') {
+          blocks.forEach(
+              block => {
+                  block.insertHide = true;
+              }
+          )
+      }
+    }
+
+   addDiv(block){
+
+       block.insertHide = !block.insertHide;
+
+      this.blocks.forEach(
+           bloc => {
+               if(block != bloc){
+                   bloc.insertHide = true;
+               }
+            }
+       )
+
+
+  }
+
+  removeDiv(id) {
+      this.blockService.removeBlock(id);
   }
 
   ajouterdivdedans(className, niveau, idBlock) {
@@ -62,6 +148,12 @@ export class BlocksComponent implements OnInit{
       }else if(i != length){
         newNiveau = newNiveau + '_' + niveausplit[i];
       }else{
+          let j = 1;
+          while(document.getElementById(newNiveau + '_' + j) != null && j < 100){
+              let k = j+1;
+              document.getElementById(newNiveau + '_' + j).setAttribute("id", newNiveau + '_' + k);
+              j++;
+          }
         newNiveau = newNiveau + '_' + 1;
       }
     }
@@ -77,11 +169,9 @@ export class BlocksComponent implements OnInit{
       proprietes: ''
     };
 
-    this.blocks.push(newBlock);
+    // this.blocks.push(newBlock);
 
     this.addBlock(newBlock);
-
-    this.blockEvent.emit(this.blocks);
 
   }
 
@@ -130,25 +220,18 @@ export class BlocksComponent implements OnInit{
 
     this.addBlock(newBlock);
 
-    this.blocks.push(newBlock);
+    // this.blocks.push(newBlock);
 
   }
 
   addBlock(newBlock) {
 
+    this.constructBlock();
     this.blockService.updateblocks(newBlock);
 
   }
 
   changeContent(id, block){
-
-    // this.blockService.changeBlock(this.blocks);
-
-      // block.each(function(e) {
-      //
-      //    console.log(e);
-      //     // return { name: e };
-      // });
 
       this.blockService.updateContent(id, block);
 
@@ -156,31 +239,31 @@ export class BlocksComponent implements OnInit{
 
   defineClass(niveau){
 
-    let niveausplit = [];
+    // let niveausplit = [];
+    //
+    // let classNiveau = '';
+    //
+    // niveau.toString().replace('_', '') == niveau ? niveausplit = [niveau] : niveausplit = niveau.toString().split('_');
+    //
+    // switch(niveausplit.length){
+    //   case 1:
+    //     classNiveau = 'first-block'
+    //     break;
+    //   case 2:
+    //     classNiveau = 'second-block'
+    //     break;
+    //   case 3:
+    //     classNiveau = 'third-block'
+    //     break;
+    //   case 4:
+    //     classNiveau = 'for-block'
+    //     break;
+    //   case 5:
+    //     classNiveau = 'five-block'
+    //     break;
+    // }
 
-    let classNiveau = '';
-
-    niveau.toString().replace('_', '') == niveau ? niveausplit = [niveau] : niveausplit = niveau.toString().split('_');
-
-    switch(niveausplit.length){
-      case 1: 
-        classNiveau = 'first-block'
-        break;
-      case 2:
-        classNiveau = 'second-block'
-        break;
-      case 3:
-        classNiveau = 'third-block'
-        break;
-      case 4:
-        classNiveau = 'for-block'
-        break;
-      case 5:
-        classNiveau = 'five-block'
-        break;
-    }
-
-    return classNiveau;
+    return 'second-block';
 
   }
 

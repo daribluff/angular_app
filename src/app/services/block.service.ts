@@ -33,6 +33,11 @@ export class BlockService {
     //  return this.blocks = block;
    }
 
+
+    removeBlock(id){
+        this.dtb.collection('blocks').doc(id).delete();
+    }
+
    updateContent(id, upBlock){
        this.dtb.collection('blocks').doc(id).set(upBlock);
    }
