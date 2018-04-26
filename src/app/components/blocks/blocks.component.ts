@@ -23,7 +23,7 @@ export class BlocksComponent implements OnInit{
   constructor(
     public blockService:BlockService
   ) {
-      this.constructBlock();
+
    }
 
    constructBlock(){
@@ -52,7 +52,7 @@ export class BlocksComponent implements OnInit{
            var mapped = blockobjArr.map(function(e, i) {
                return { index: i, value: e.niveau };
            });
-
+           
            mapped.sort(function(a, b) {
                if (a.value > b.value) {
                    return 1;
@@ -63,37 +63,86 @@ export class BlocksComponent implements OnInit{
                return 0;
            });
 
-           var blockobjArr = mapped.map(function(e){
-               return blockobjArr[e.index];
+           let blockobjArr3 = [];
+           
+           mapped.map(function(e) {
+               var temp = blockobjArr[e.index];
+               blockobjArr3.push(temp);
            });
 
            let prevniveau = 1;
 
            let blockobjArr2 = [];
 
-           blockobjArr.map(block => {
+           blockobjArr = blockobjArr3;
+
+           console.log(blockobjArr);
+
+           blockobjArr.map(function(block, key){
 
                let prevniveau = block.niveau.substr(0, parseInt(block.niveau.length)- 2);
 
-               if(blockobjArr2[prevniveau]){
+               // console.log(block.niveau+' => '+prevniveau+ ' => '+blockobjArr2[prevniveau]);
+
+               // if(blockobjArr2[prevniveau]) {
+
+                   let blocktemp = [];
+
+                   // blocktemp['id'] = block.id;
+                   // blocktemp['block'] = block;
+                   // blocktemp['insertHide'] = true;
+                   // blocktemp['niveau'] = block.niveau
+                   // blocktemp['className'] = block.className;
+                   // blocktemp['type'] = block.type;
+                   // blocktemp['className'] = block.className;
+                   // blocktemp['idBlock'] = block.idBlock;
+
+                   if (!blockobjArr2[prevniveau]) {
+                       blockobjArr2[prevniveau] = [];
+                   }
+
+                   console.log(block.niveau);
+                    console.log(blockobjArr2[prevniveau][0]);
+
+                    // if(blockobjArr2[prevniveau][0]){
+                    //     console.log(blockobjArr2[prevniveau][0]);
+                    //     console.log(block);
+                    // };
+
+                   // console.log(block);
+
+                   // console.log(blockobjArr2[prevniveau].indexOf(block));
+
                    blockobjArr2[prevniveau].push(block);
-               }
 
-              let blocktemp = [];
+                   // console.log(blockobjArr2[block.niveau]);
 
-               blocktemp['id'] = block.id;
-               blocktemp['block'] = block;
-               blocktemp['insertHide'] = true;
+                    // if(blockobjArr2[block.niveau][0].block != block) {
 
-                if(!blockobjArr2[block.niveau]){
-                    blockobjArr2[block.niveau] = [];
-                }
+                        // let blocktemp = [];
+                        //
+                        // blocktemp['id'] = block.id;
+                        // blocktemp['block'] = block;
+                        // blocktemp['insertHide'] = true;
+                        // blocktemp['niveau'] = block.niveau;
 
-               blockobjArr2[block.niveau].push(blocktemp);
+                        if (!blockobjArr2[block.niveau]) {
+                            blockobjArr2[block.niveau] = [];
+                        }
+
+                        // blockobjArr2[block.niveau].push(block);
+
+                    // }
+
+
+                   // blockobjArr.splice(key, 1);
+
+               // }
 
            });
 
-           console.log('a');
+           // console.log(blockobjArr);
+           // console.log(blockobjArr2);
 
            this.blocks = blockobjArr;
            this.blocks2 = blockobjArr2;
@@ -102,7 +151,12 @@ export class BlocksComponent implements OnInit{
    }
 
   ngOnInit() {
-    // this.blockService.currentBlock.subscribe(block => this.blocks = block);
+       if(!this.blocks){
+           this.constructBlock();
+       }else{
+           // console.log(this.blocks);
+           // console.log(this.blocks2);
+      }
   }
 
   clickbody(blocks){
@@ -239,31 +293,31 @@ export class BlocksComponent implements OnInit{
 
   defineClass(niveau){
 
-    // let niveausplit = [];
-    //
-    // let classNiveau = '';
-    //
-    // niveau.toString().replace('_', '') == niveau ? niveausplit = [niveau] : niveausplit = niveau.toString().split('_');
-    //
-    // switch(niveausplit.length){
-    //   case 1:
-    //     classNiveau = 'first-block'
-    //     break;
-    //   case 2:
-    //     classNiveau = 'second-block'
-    //     break;
-    //   case 3:
-    //     classNiveau = 'third-block'
-    //     break;
-    //   case 4:
-    //     classNiveau = 'for-block'
-    //     break;
-    //   case 5:
-    //     classNiveau = 'five-block'
-    //     break;
-    // }
+    let niveausplit = [];
 
-    return 'second-block';
+    let classNiveau = '';
+
+    niveau.toString().replace('_', '') == niveau ? niveausplit = [niveau] : niveausplit = niveau.toString().split('_');
+
+    switch(niveausplit.length){
+      case 1:
+        classNiveau = 'first-block'
+        break;
+      case 2:
+        classNiveau = 'second-block'
+        break;
+      case 3:
+        classNiveau = 'third-block'
+        break;
+      case 4:
+        classNiveau = 'for-block'
+        break;
+      case 5:
+        classNiveau = 'five-block'
+        break;
+    }
+
+    return classNiveau;
 
   }
 

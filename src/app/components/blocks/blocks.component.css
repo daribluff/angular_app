@@ -1,25 +1,10 @@
-.html-block{
-    width: 820px;
-    border-right: 1px solid #f8f8f8;
-    height: 100%;
-    position: fixed;
-    font-family: lato;
-    float: left;
-    top: 0px;
-    left: 1100px;
-    border-top: 90px solid #0065ae;
-}
 
-.title{
-
-}
 
 .caret{
     float: left;
     width: 20px;
     line-height: 30px;
-    text-align: right;
-    text-indent: 0px;
+    margin-left: -30px;
 }
 
 .type{
@@ -27,6 +12,11 @@
     color: #6d016d;
     opacity: 0.5;
     font-weight: bold;
+}
+
+.containerButton{
+    float: right;
+    width: 70px;
 }
 
 .htmlContent{
@@ -67,11 +57,10 @@
 }
 
 .addDivInside{
-    float: right;
+    float: left;
     font-size: 14px;
-    margin-right: 15px;
     text-align: center;
-    width: 20px;
+    width: 30px;
     line-height: 30px;
 }
 
@@ -84,11 +73,10 @@
 }
 
 .removeDiv{
-    float: right;
+    float: left;
     font-size: 15px;
-    margin-right: 20px;
     text-align: left;
-    width: 20px;
+    width: 30px;
     line-height: 24px;
 }
 
@@ -150,7 +138,7 @@
 .first-block{
     float: left;
     width: 780px;
-    height: 30px;
+    min-height: 30px;
     line-height: 30px;
     margin-left: 40px;
     margin-top: 2px;
@@ -162,21 +150,22 @@
 
 .second-block{
     float: left;
-    width: 760px;
-    height: 30px;
+    width: 740px;
+    min-height: 30px;
     line-height: 30px;
-    margin-left: 60px;
+    margin-left: 40px;
     margin-top: 2px;
     text-indent: 15px;
     color: #4e4e4e;
     font-family: lato;
     font-size: 13px;
+    border-left: 1px solid #cacaca;
 }
 
 .third-block{
     float: left;
     width: 740px;
-    height: 30px;
+    min-height: 30px;
     line-height: 30px;
     margin-left: 80px;
     margin-top: 2px;
@@ -202,7 +191,7 @@
 .five-block{
     float: left;
     width: 700px;
-    height: 30px;
+    min-height: 30px;
     line-height: 30px;
     margin-left: 120px;
     margin-top: 2px;

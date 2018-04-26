@@ -1,7 +1,4 @@
-<div class="html-block" (click)="clickbody(blocks)">
-  <div class="title">
 
-  </div>
   
   <div *ngFor="let block of blocks" [ngClass]="defineClass(block.niveau)" id="{{ block.niveau }}" (click)=bindCss(block.css)>
 
@@ -13,13 +10,15 @@
         <span class="htmlContent" contenteditable="true" [(ngModel)]="block.block.htmlContent" (focusout)="changeContent(block.id, block.block)">{{ block.htmlContent }}</span>
         <!--<span class="type"><{{ block.type }}></span>-->
 
-      <span class="removeDiv" (click)="removeDiv(block.id)">
-        <i class="fa fa-trash"></i>
-      </span>
+      <div class="containerButton">
+          <span class="removeDiv" (click)="removeDiv(block.id)">
+            <i class="fa fa-trash"></i>
+          </span>
 
-      <span class="addDivInside" (click)="addDiv(block)">
-          <ng-container *ngIf="blocks2[block.niveau]">{{ blocks2[block.niveau].length }}</ng-container><i class="fa fa-plus-square"></i>
-      </span>
+          <span class="addDivInside" (click)="addDiv(block)">
+              <i class="fa fa-plus-square"></i>
+          </span>
+      </div>
 
     <div class="insert_block" [hidden]='block.insertHide'>
         <span class="plus">
@@ -32,11 +31,9 @@
         </span>
       </div>
 
-      <app-blocks *ngIf="blocks2[block.niveau]" [blocks]="blocks2[block.niveau]" [blocks2]="[]"></app-blocks>
+      <app-blocks *ngIf="blocks2[block.niveau]" [blocks]="blocks2[block.niveau]" [blocks2]="blocks2"></app-blocks>
 
   </div>
-
-</div>
 
 <ng-template #noBlocks>
   <hr>
