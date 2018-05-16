@@ -7,6 +7,10 @@
     margin-left: -30px;
 }
 
+app-blocks{
+    height: auto;
+}
+
 .type{
     float: left;
     color: #6d016d;
@@ -51,9 +55,9 @@
 .insert_block{
     margin-right: 0px;
     float: right;
-    width: 810px;
     min-height: 50px;
     margin-top: -5px;
+    position: absolute;
 }
 
 .addDivInside{
@@ -106,14 +110,16 @@
     float: right;
     width: 223px;
     line-height: 30px;
-    margin-left: 495px;
+    margin-left: 425px;
     background-color: #FFF;
     border-radius: 2px;
     position: absolute;
     opacity: 1;
     z-index: 2;
     border: 1px solid #cacaca;
+    -webkit-box-shadow: 0px 1px 1px 1px #f1f1f1;
     box-shadow: 0px 1px 1px 1px #f1f1f1;
+    margin-top: 12px;
 }
 
 .plus:hover{
@@ -150,53 +156,75 @@
 
 .second-block{
     float: left;
-    width: 740px;
+    width: 770px;
     min-height: 30px;
     line-height: 30px;
-    margin-left: 40px;
+    margin-left: 50px;
     margin-top: 2px;
     text-indent: 15px;
     color: #4e4e4e;
     font-family: lato;
     font-size: 13px;
-    border-left: 1px solid #cacaca;
+    border-left: 1px solid #eaeaea;
 }
 
 .third-block{
     float: left;
-    width: 740px;
+    width: 739px;
     min-height: 30px;
     line-height: 30px;
-    margin-left: 80px;
+    margin-left: 30px;
     margin-top: 2px;
     text-indent: 15px;
     color: #4e4e4e;
     font-family: lato;
     font-size: 13px;
+    border-left: 1px solid #eaeaea;
 }
 
 .for-block{
     float: left;
-    width: 720px;
-    height: 30px;
+    width: 708px;
+    min-height: 30px;
     line-height: 30px;
-    margin-left: 100px;
+    margin-left: 30px;
     margin-top: 2px;
     text-indent: 15px;
     color: #4e4e4e;
     font-family: lato;
     font-size: 13px;
+    border-left: 1px solid #eaeaea;
 }
 
 .five-block{
     float: left;
-    width: 700px;
+    width: 677px;
     min-height: 30px;
     line-height: 30px;
-    margin-left: 120px;
+    margin-left: 30px;
     margin-top: 2px;
     text-indent: 15px;
     color: #4e4e4e;
     font-family: lato;
     font-size: 13px;
+    border-left: 1px solid #eaeaea;
+}
+
+.first-block .plus{
+    margin-left: 490px;
+}
+
+.second-block .plus{
+    margin-left: 459px;
+}
+.third-block .plus{
+    margin-left: 428px;
+}
+
+.for-block .plus{
+    margin-left: 397px;
+}
+
+.five-block .plus{
+    margin-left: 366px;
 }

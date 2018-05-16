@@ -1,6 +1,10 @@
 
-  
-  <div *ngFor="let block of blocks" [ngClass]="defineClass(block.niveau)" id="{{ block.niveau }}" (click)=bindCss(block.css)>
+
+  <ng-container *ngFor="let block of blocks"  (click)="clickbody(blocks)">
+
+      <ng-container *ngIf="afficherDiv(block)">
+
+      <div [ngClass]="defineClass(block.niveau)" id="{{ block.niveau }}" (click)=bindCss(block.css)>
 
       <span class="caret"><fa name="caret-right"></fa></span>
 
@@ -31,9 +35,13 @@
         </span>
       </div>
 
-      <app-blocks *ngIf="blocks2[block.niveau]" [blocks]="blocks2[block.niveau]" [blocks2]="blocks2"></app-blocks>
+      <app-blocks *ngIf="blocks2[block.niveau]" [blocks]="blocks2[block.niveau]" [blocks2]="blocks2" [imbricate]="imbricate"></app-blocks>
 
-  </div>
+      </div>
+
+  </ng-container>
+
+  </ng-container>
 
 <ng-template #noBlocks>
   <hr>

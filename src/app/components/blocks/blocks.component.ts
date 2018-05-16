@@ -14,11 +14,13 @@ export class BlocksComponent implements OnInit{
 
   blocks:Block;
   blocks2:Block;
+  imbricate:boolean;
 
   @Output() blockEvent = new EventEmitter();
 
     @Input() blocks;
     @Input() blocks2;
+    @Input() imbricate;
 
   constructor(
     public blockService:BlockService
@@ -76,7 +78,7 @@ export class BlocksComponent implements OnInit{
 
            blockobjArr = blockobjArr3;
 
-           console.log(blockobjArr);
+           // console.log(blockobjArr);
 
            blockobjArr.map(function(block, key){
 
@@ -101,8 +103,8 @@ export class BlocksComponent implements OnInit{
                        blockobjArr2[prevniveau] = [];
                    }
 
-                   console.log(block.niveau);
-                    console.log(blockobjArr2[prevniveau][0]);
+                   // console.log(block.niveau);
+                    // console.log(blockobjArr2[prevniveau][0]);
 
                     // if(blockobjArr2[prevniveau][0]){
                     //     console.log(blockobjArr2[prevniveau][0]);
@@ -153,13 +155,23 @@ export class BlocksComponent implements OnInit{
   ngOnInit() {
        if(!this.blocks){
            this.constructBlock();
+           this.imbricate = false;
        }else{
            // console.log(this.blocks);
            // console.log(this.blocks2);
+           this.imbricate = true;
       }
   }
 
-  clickbody(blocks){
+  afficherDiv(block){
+       if(this.imbricate == false && block.niveau.length > 3 ){
+           return false;
+       }else{
+           return true;
+       }
+  }
+
+    clickbody(blocks) {
       if(event.target.className == 'html-block') {
           blocks.forEach(
               block => {
@@ -202,11 +214,23 @@ export class BlocksComponent implements OnInit{
       }else if(i != length){
         newNiveau = newNiveau + '_' + niveausplit[i];
       }else{
-          let j = 1;
-          while(document.getElementById(newNiveau + '_' + j) != null && j < 100){
+          let j = this.blocks2[newNiveau].length;
+          while(this.blocks2[newNiveau + '_' + j] && j > 0){
+
               let k = j+1;
               document.getElementById(newNiveau + '_' + j).setAttribute("id", newNiveau + '_' + k);
-              j++;
+              this.blocks2[newNiveau + '_' + k] = this.blocks2[newNiveau + '_' + j];
+              this.blocks2[newNiveau + '_' + j] = [];
+
+              let block = this.blocks2[newNiveau + '_' + k];
+              let id = block.id;
+              block.niveau = newNiveau + '_' + k;
+              
+              console.log(block);
+              
+              // this.changeContent(id, block);
+
+              j--;
           }
         newNiveau = newNiveau + '_' + 1;
       }
@@ -223,9 +247,8 @@ export class BlocksComponent implements OnInit{
       proprietes: ''
     };
 
-    // this.blocks.push(newBlock);
 
-    this.addBlock(newBlock);
+    // this.addBlock(newBlock);
 
   }
 

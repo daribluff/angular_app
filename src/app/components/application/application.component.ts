@@ -33,7 +33,6 @@ export class ApplicationComponent implements OnInit {
 
           });
 
-
           this.blocks = blockobjArr;
 
       })
